@@ -98,7 +98,7 @@ public class ShowMessage {
 					}
 				} 
 				catch (Exception e) {
-					//if the algorith failed to decrypt the text with the provided password it means the password entered was wrong
+					//if the algorithm failed to decrypt the text with the provided password it means the password entered was wrong
 					//in this case decrypt function throw's an exception 
 					error.setText("Wrong password. Please try again");
 					//e.printStackTrace();
