@@ -68,6 +68,7 @@ public class ShowMessage {
 			public void actionPerformed(ActionEvent arg0) {
 				error.setText("");
 				textArea.setText("");
+				//disable textarea so that user cannot edit it
 				textArea.disable();
 				String pwd = passwordField.getText();
 				String title = textField.getText();
@@ -75,11 +76,13 @@ public class ShowMessage {
 				try {
 					Database db = new Database();
 					Connection con = db.getConn();
+					//check if any messages exist with the entered title
 					String query = "Select * from msg where msgTitle = ?";
 					PreparedStatement pst =  con.prepareStatement(query);
 					pst.setString(1, title);
 					ResultSet rs = pst.executeQuery();
 					if(rs.next()) {
+						//Declaring a hashmap to  add value to because decrypt function expects a hashmap
 						HashMap<String,String> map = new HashMap<String, String>();
 						map.put("password",pwd);
 						map.put("iv",rs.getString("iv"));
@@ -95,6 +98,8 @@ public class ShowMessage {
 					}
 				} 
 				catch (Exception e) {
+					//if the algorith failed to decrypt the text with the provided password it means the password entered was wrong
+					//in this case decrypt function throw's an exception 
 					error.setText("Wrong password. Please try again");
 					//e.printStackTrace();
 					

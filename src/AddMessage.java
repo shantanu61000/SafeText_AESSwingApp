@@ -82,20 +82,31 @@ public class AddMessage implements KeyListener{
 		btnSaveMessage.setFont(new Font("Ubuntu", Font.BOLD, 16));
 		btnSaveMessage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				//clear the error message if any . This is so that the error still doesn't appear when the inputs are correct
 				error.setText("");
+				
+				//get the values entered by the user
 				String msg = textArea.getText();
 				String pwd = passwordField.getText();	
 				String title = textField.getText(); 
+				
+				//check if any input field is blank
 				if(msg.equals("") || pwd.equals("") || title.equals("")) {
 					error.setText("None of the fields can be blank");
 				}
+				
+				//No input fields are blank
 				else {
+					//check if msg is less then 1000 char
 					if(msg.length() <= 1000) {
+						//check if password is within the range
 						if(pwd.length()<=15 && pwd.length() >=3) {
 							aesUtils aes = new aesUtils();
 							try {
 								Database db = new Database();
 								Connection con = db.getConn();
+								
+								//prepeared statement query to check if the entered title is already there in database
 								String query = "Select * from msg where msgTitle = ?";
 								PreparedStatement pst = con.prepareStatement(query);
 								pst.setString(1, title);
@@ -105,7 +116,10 @@ public class AddMessage implements KeyListener{
 									con.close();
 								}
 								else {
+									//means password is unique
 									var map = aes.encrypt(pwd,msg);
+									
+									//prepared statement query to input the values returned by encrypt method
 									query = "Insert into msg(message,iv,salt,msgTitle) values (?,?,?,?)";
 									PreparedStatement pst2 =  con.prepareStatement(query);				
 									pst2.setString(1, map.get("message"));
@@ -117,7 +131,7 @@ public class AddMessage implements KeyListener{
 									if (temp > 0)
 										error.setText("Message saved successfuly.");
 									else
-										JOptionPane.showMessageDialog(null, "Falied to save message");
+										error.setText("Falied to save message");
 									}						
 									
 							} 

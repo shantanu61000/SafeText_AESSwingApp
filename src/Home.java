@@ -1,3 +1,7 @@
+// Author : Shantanu Tripathi
+// aesUtils: Aaron Johns
+// Date: 28th August 2020
+// Version 1.01
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -59,9 +63,9 @@ public class Home {
 		btnAddMessage.setFont(new Font("Ubuntu", Font.BOLD, 15));
 		btnAddMessage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				frmSafeText.dispose();
+				frmSafeText.dispose(); // to close the current window
 				AddMessage addMessage = new AddMessage();
-				addMessage.frmAddMessage.setVisible(true);
+				addMessage.frmAddMessage.setVisible(true); //open addMessage Module
 			}
 		});
 		btnAddMessage.setBounds(149, 107, 158, 40);
@@ -73,12 +77,12 @@ public class Home {
 			public void actionPerformed(ActionEvent arg0) {
 				frmSafeText.dispose();
 				ShowMessage showMessage = new ShowMessage();
-				showMessage.frmShowMessage.setVisible(true);
+				showMessage.frmShowMessage.setVisible(true); //open showMessage Module
 			}
 		});
 		btnShowMessage.setBounds(149, 159, 158, 40);
 		frmSafeText.getContentPane().add(btnShowMessage);
-		frmSafeText.setLocationRelativeTo(null);
+		frmSafeText.setLocationRelativeTo(null);  // to open the app in center of the sceen
 	}
 
 }
